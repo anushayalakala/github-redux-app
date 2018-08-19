@@ -1,0 +1,11 @@
+.repoinfo
+{
+    border:1px solid red;
+    margin-top:10px;
+    background-color: white;
+    width:80%;
+    margin:0 auto;
+}
+.listitem:hover{
+background-color: lightgray;
+}
