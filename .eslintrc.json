@@ -1,0 +1,22 @@
+{
+    "extends": "airbnb",
+    "env":{
+      "browser": true,
+      "es6": true
+  },
+  "rules": {
+      "react/jsx-filename-extension" : 0,
+      "no-use-before-define": 0,
+      "react/destructuring-assignment": ["2", "always", { "ignoreClassFields": true }]
+  },
+  "parserOptions": {
+      "ecmaVersion": 6
+  },
+  "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": ["src"]
+        }
+      }
+  }  
+}
