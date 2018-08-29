@@ -1,5 +1,5 @@
 import {
-  GET_USER_GISTS, USER_GISTS_LOADING, GISTS_FAILURE, GET_GIST_FILES,
+  GET_USER_GISTS, USER_GISTS_LOADING, GISTS_FAILURE, GET_GIST_FILES, GIST_FILES_FAILURE,
 } from '../Constants';
 
 export const getUserGists = () => {
@@ -53,10 +53,14 @@ export const getGistFiles = Id => (dispatch) => {
       dispatch(GistFiles(data));
     })
     .catch((error) => {
-      throw new Error(error);
+      dispatch(GistFilesFailure(error));
     });
 };
 export const GistFiles = gistFiles => ({
   type: GET_GIST_FILES,
   gistFiles,
+});
+export const GistFilesFailure = error => ({
+  type: GIST_FILES_FAILURE,
+  error,
 });

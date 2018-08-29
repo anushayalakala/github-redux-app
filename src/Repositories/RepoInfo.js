@@ -8,6 +8,7 @@ import '../Styles/RepoInfo.css';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import store from '../Store/Index';
 import { getRepositoryCommits } from './RepoActions';
 
 class RepoInfo extends React.Component {
@@ -54,6 +55,12 @@ class RepoInfo extends React.Component {
   }
 
   componentDidMount() {
+    const tabIndex = '1';
+    sessionStorage.setItem('tabIndex', tabIndex);
+    store.dispatch({
+      type: 'ACTIVE_TAB',
+      tabIndex,
+    });
     const { reponame } = this.props.match.params;
     this.props.getRepositoryCommits(reponame);
   }

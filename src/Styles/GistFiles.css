@@ -13,3 +13,6 @@ background-color: white;
 width: 80%;
 margin: 0 auto;
 }
+:local(.div_style) {
+text-align: center;
+}
