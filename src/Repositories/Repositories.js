@@ -7,17 +7,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
-import store from '../Store/Index';
 import { getReponames } from './RepoActions';
 
 class Repositories extends React.Component {
   componentDidMount() {
-    const tabIndex = '1';
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
     this.props.getReponames();
   }
 

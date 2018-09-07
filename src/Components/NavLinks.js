@@ -1,18 +1,29 @@
 import React from 'react';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import store from '../Store/Index';
 
 class NavLinks extends React.Component {
-  setTabIndex(e) { // eslint-disable-line class-methods-use-this
-    const tabIndex = e.props.value;
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
+  getTabindex() {
+    const { location: { pathname } } = this.props;
+    let tabIndex = '0';
+    switch (true) {
+      case /user\/*/.test(pathname): {
+        tabIndex = '0';
+        break;
+      }
+      case /repos\/*/.test(pathname): {
+        tabIndex = '1';
+        break;
+      }
+      case /gists\/*/.test(pathname): {
+        tabIndex = '2';
+        break;
+      }
+      default:
+        tabIndex = '0';
+    }
+    return tabIndex;
   }
 
   render() {
@@ -24,20 +35,24 @@ class NavLinks extends React.Component {
         fontWeight: 200,
       },
     };
-    const { tabIndex } = this.props;
     return (
-      <Tabs value={tabIndex}>
-        <Tab label="Userprofile" onActive={this.setTabIndex} value="0" containerElement={<Link to="/user" />} style={styles.headline} />
-        <Tab label="Repositories" onActive={this.setTabIndex} value="1" containerElement={<Link to="/repos" />} style={styles.headline} />
-        <Tab label="Gists" onActive={this.setTabIndex} value="2" containerElement={<Link to="/gists" />} style={styles.headline} />
+      <Tabs value={this.getTabindex()}>
+        <Tab label="Userprofile" value="0" containerElement={<Link to="/user" />} style={styles.headline} />
+        <Tab label="Repositories" value="1" containerElement={<Link to="/repos" />} style={styles.headline} />
+        <Tab label="Gists" value="2" containerElement={<Link to="/gists" />} style={styles.headline} />
       </Tabs>
     );
   }
 }
-const mapStateToProps = state => ({
-  tabIndex: state.navLink.tabIndex,
-});
 NavLinks.propTypes = {
-  tabIndex: PropTypes.string.isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired,
+  }),
 };
-export default connect(mapStateToProps)(NavLinks);
+NavLinks.defaultProps = {
+  location: {
+    pathname: '',
+  },
+};
+const RoutedNavLinks = withRouter(NavLinks);
+export default RoutedNavLinks;

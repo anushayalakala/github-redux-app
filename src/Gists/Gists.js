@@ -7,17 +7,10 @@ import Divider from 'material-ui/Divider';
 import PropTypes from 'prop-types';
 import { List, ListItem } from 'material-ui';
 import { bindActionCreators } from 'redux';
-import store from '../Store/Index';
 import { getUserGists } from './GistActions';
 
 class Gists extends React.Component {
   componentDidMount() {
-    const tabIndex = '2';
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
     this.props.getUserGists();
   }
 

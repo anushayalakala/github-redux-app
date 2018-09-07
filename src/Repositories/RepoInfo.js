@@ -4,63 +4,19 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import IconButton from 'material-ui/IconButton';
 import Divider from 'material-ui/Divider';
-import '../Styles/RepoInfo.css';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import store from '../Store/Index';
+import styles from '../Styles/RepoInfo.css';
 import { getRepositoryCommits } from './RepoActions';
 
 class RepoInfo extends React.Component {
   constructor(props) {
     super(props);
     this.goBack = this.goBack.bind(this);
-    this.styles = {
-      divStyle: {
-        paddingLeft: 50,
-        paddingRight: 50,
-      },
-      h3Style: {
-        paddingLeft: 50,
-        paddingRight: 50,
-        color: 'gray',
-      },
-      msgStyle: {
-        padding: 5,
-      },
-      nameStyle: {
-        padding: 5,
-        color: 'gray',
-        fontSize: 12,
-      },
-      listitemStyle: {
-        display: 'flex',
-        height: 'auto',
-        justifyContent: 'space-between',
-        backgroundColor: 'white',
-      },
-      dataStyle:
-            {
-              padding: 10,
-            },
-      hashcodeStyle:
-            {
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: 10,
-              color: 'blue',
-            },
-    };
   }
 
   componentDidMount() {
-    const tabIndex = '1';
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
     const { reponame } = this.props.match.params;
     this.props.getRepositoryCommits(reponame);
   }
@@ -70,14 +26,17 @@ class RepoInfo extends React.Component {
   }
 
   render() {
+    const { commitserror } = this.props;
     return (
       <MuiThemeProvider>
-        <div className="repoinfo">
-          <IconButton onClick={this.goBack}><NavigationArrowBack /></IconButton>
-          <h3 style={this.styles.h3Style}>commits</h3>
-          <div style={this.styles.divStyle}>
-            <List>
-              {
+        { commitserror ? (<div className={styles.div_style}><h3>Commits Not Found</h3></div>)
+          : (
+            <div className={styles.repoinfo}>
+              <IconButton onClick={this.goBack}><NavigationArrowBack /></IconButton>
+              <h3 className={styles.h3Style}>commits</h3>
+              <div className={styles.divStyle}>
+                <List>
+                  {
                                 this.props.commits.map((obj) => {
                                   const { commit } = obj;
                                   const { committer } = commit;
@@ -86,31 +45,34 @@ class RepoInfo extends React.Component {
                                   return (
                                     <div>
                                       <Divider />
-                                      <div className="listitem" style={this.styles.listitemStyle}>
-                                        <div style={this.styles.dataStyle}>
-                                          <div style={this.styles.msgStyle}>{commit.message}</div>
-                                          <div style={this.styles.listitemStyle}>
+                                      <div className={styles.listitemStyle}>
+                                        <div className={styles.dataStyle}>
+                                          <div className={styles.msgStyle}>{commit.message}</div>
+                                          <div className={styles.listitemStyle}>
                                             {committer.name}
                                             commited on
                                             {commitdate}
                                           </div>
                                         </div>
-                                        <div style={this.styles.hashcodeStyle}>{hcode}</div>
+                                        <div className={styles.hashcodeStyle}>{hcode}</div>
                                       </div>
 
                                     </div>
                                   );
                                 })
                             }
-            </List>
-          </div>
-        </div>
+                </List>
+              </div>
+            </div>
+          )
+        }
       </MuiThemeProvider>
     );
   }
 }
 const mapStateToProps = state => ({
   commits: state.repo.commits,
+  commitserror: state.repo.commitserror,
 });
 const mapDispatchToProps = dispatch => (
   bindActionCreators({ getRepositoryCommits }, dispatch)
@@ -118,6 +80,7 @@ const mapDispatchToProps = dispatch => (
 RepoInfo.propTypes = {
   commits: PropTypes.instanceOf(Array).isRequired,
   reponame: PropTypes.string.isRequired,
+  commitserror: PropTypes.string.isRequired,
   getRepositoryCommits: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({

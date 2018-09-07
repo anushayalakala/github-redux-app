@@ -6,7 +6,6 @@ import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import store from '../Store/Index';
 import styles from '../Styles/GistFiles.css';
 import * as gistActions from './GistActions';
 
@@ -17,12 +16,6 @@ class GistFile extends React.Component {
   }
 
   componentDidMount() {
-    const tabIndex = '2';
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
     const { fileId } = this.props.match.params;
     const { getGistFiles } = this.props;
     getGistFiles(fileId);
@@ -46,7 +39,7 @@ class GistFile extends React.Component {
     ));
     return (
       <MuiThemeProvider>
-        { gistfileerror ? (<div className={styles.div_style}><h3>UnIdentified Files Found</h3></div>)
+        { gistfileerror ? (<div className={styles.div_style}><h3>Gists Not Found</h3></div>)
           : (
             <div className={styles.content}>
               <IconButton onClick={this.goBack} tooltip="go back and hold see the history"><NavigationArrowBack /></IconButton>

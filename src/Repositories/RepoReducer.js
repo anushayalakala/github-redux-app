@@ -1,5 +1,5 @@
 import {
-  GET_USER_REPOS, USER_REPOS_LOADING, USER_REPOS_FAILURE, GET_REPO_COMMITS,
+  GET_USER_REPOS, USER_REPOS_LOADING, USER_REPOS_FAILURE, GET_REPO_COMMITS, GET_REPO_COMMITS_FAILURE,
 } from '../Constants';
 
 const initialstate = {
@@ -7,6 +7,7 @@ const initialstate = {
   isLoading: false,
   error: '',
   commits: [],
+  commitserror: '',
 };
 const repoReducer = (state = initialstate, action) => {
   switch (action.type) {
@@ -21,6 +22,9 @@ const repoReducer = (state = initialstate, action) => {
     }
     case USER_REPOS_FAILURE: {
       return Object.assign({}, state, { error: action.error });
+    }
+    case GET_REPO_COMMITS_FAILURE: {
+      return Object.assign({}, state, { commitserror: action.error });
     }
     default: return state;
   }

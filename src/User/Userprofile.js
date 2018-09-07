@@ -9,17 +9,10 @@ import '../Styles/Userprofile.css';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import store from '../Store/Index';
 import { getData } from './UserActions';
 
 class Userprofile extends React.Component {
   componentDidMount() {
-    const tabIndex = '0';
-    sessionStorage.setItem('tabIndex', tabIndex);
-    store.dispatch({
-      type: 'ACTIVE_TAB',
-      tabIndex,
-    });
     this.props.getData('');
   }
 
