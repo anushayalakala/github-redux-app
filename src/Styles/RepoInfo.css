@@ -1,11 +1,46 @@
-.repoinfo
-{
-    border:1px solid red;
-    margin-top:10px;
-    background-color: white;
-    width:80%;
-    margin:0 auto;
+:local(.repoinfo) {
+border:1px solid red;
+margin-top:10px;
+background-color: white;
+width:80%;
+margin:0 auto;
 }
-.listitem:hover{
+:local(.listitemStyle:hover){
 background-color: lightgray;
+}
+:local(.divStyle) {
+padding-left: 50px;
+padding-right: 50px;
+}
+:local(.h3Style) {
+padding-left: 50px;
+padding-right: 50px;
+color: gray;
+}
+:local(.msgStyle) {
+padding: 5px;
+}
+:local(.nameStyle) {
+padding: 5px;
+color: gray;
+font-size: 12px;
+}
+:local(.listitemStyle) {
+display: flex;
+height: auto;
+justify-content: space-between;
+background-color: white;
+}
+:local(.dataStyle){
+padding: 10px;
+}
+:local(.hashcodeStyle){
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 10;
+color: blue;
+}
+:local(.div_style) {
+text-align: center;
 }

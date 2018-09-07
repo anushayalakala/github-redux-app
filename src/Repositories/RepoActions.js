@@ -1,5 +1,5 @@
 import {
-  GET_USER_REPOS, USER_REPOS_LOADING, USER_REPOS_FAILURE, GET_REPO_COMMITS,
+  GET_USER_REPOS, USER_REPOS_LOADING, USER_REPOS_FAILURE, GET_REPO_COMMITS, GET_REPO_COMMITS_FAILURE,
 } from '../Constants';
 
 export const getReponames = () => {
@@ -12,7 +12,6 @@ export const getReponames = () => {
           if (response.ok) {
             return response.json();
           }
-
           throw new Error(response.statusText);
         })
         .then((data) => {
@@ -20,8 +19,8 @@ export const getReponames = () => {
           dispatch(userRepositoriesLoading(false));
         })
         .catch((error) => {
+          dispatch(userRepositoriesError(error));
           dispatch(userRepositoriesLoading(false));
-          throw new Error(error);
         });
     }
   };
@@ -53,10 +52,14 @@ export const getRepositoryCommits = repoName => (dispatch) => {
       dispatch(repoCommits(data));
     })
     .catch((error) => {
-      throw new Error(error);
+      dispatch(repoCommitsFailure(error));
     });
 };
 export const repoCommits = commits => ({
   type: GET_REPO_COMMITS,
   commits,
+});
+export const repoCommitsFailure = error => ({
+  type: GET_REPO_COMMITS_FAILURE,
+  error,
 });
